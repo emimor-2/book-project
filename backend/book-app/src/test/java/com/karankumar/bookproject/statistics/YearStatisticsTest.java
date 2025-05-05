@@ -22,6 +22,8 @@ import com.karankumar.bookproject.book.model.Book;
 import com.karankumar.bookproject.book.service.BookService;
 import com.karankumar.bookproject.shelf.service.PredefinedShelfService;
 import com.karankumar.bookproject.statistics.util.StatisticTestUtils;
+import com.karankumar.bookproject.util.BookPostgreSQLContainer;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,6 +45,11 @@ class YearStatisticsTest {
   YearStatisticsTest(BookService bookService, PredefinedShelfService predefinedShelfService) {
     this.bookService = bookService;
     this.predefinedShelfService = predefinedShelfService;
+  }
+
+  @BeforeAll
+  static void dbSetup() {
+    BookPostgreSQLContainer.getInstance().start();
   }
 
   @BeforeEach

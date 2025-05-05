@@ -20,12 +20,12 @@ package com.karankumar.bookproject.util;
 import com.karankumar.bookproject.annotations.IntegrationTest;
 import com.karankumar.bookproject.book.model.Author;
 import com.karankumar.bookproject.book.model.Book;
-import com.karankumar.bookproject.shelf.model.UserCreatedShelf;
-import com.karankumar.bookproject.shelf.model.PredefinedShelf;
 import com.karankumar.bookproject.book.service.BookService;
-import com.karankumar.bookproject.shelf.service.UserCreatedShelfService;
+import com.karankumar.bookproject.shelf.model.PredefinedShelf;
+import com.karankumar.bookproject.shelf.model.UserCreatedShelf;
 import com.karankumar.bookproject.shelf.service.PredefinedShelfService;
-import static org.assertj.core.api.Assertions.assertThat;
+import com.karankumar.bookproject.shelf.service.UserCreatedShelfService;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,6 +34,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @IntegrationTest
 @DisplayName("CustomShelfUtils should")
@@ -47,6 +49,11 @@ class UserCreatedShelfUtilsTest {
   private UserCreatedShelf userCreatedShelfWithNoBooks;
 
   private Set<Book> booksInCustomShelf1;
+
+  @BeforeAll
+  static void dbSetup() {
+    BookPostgreSQLContainer.getInstance().start();
+  }
 
   @Autowired
   UserCreatedShelfUtilsTest(

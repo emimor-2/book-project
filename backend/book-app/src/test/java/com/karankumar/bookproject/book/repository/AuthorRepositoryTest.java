@@ -19,6 +19,8 @@ package com.karankumar.bookproject.book.repository;
 
 import com.karankumar.bookproject.annotations.DataJpaIntegrationTest;
 import com.karankumar.bookproject.book.model.Author;
+import com.karankumar.bookproject.util.BookPostgreSQLContainer;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +32,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaIntegrationTest
 class AuthorRepositoryTest {
   @Autowired private AuthorRepository underTest;
+  @Autowired private BookRepository bookRepository;
+
+  @BeforeAll
+  static void dbSetup() {
+    BookPostgreSQLContainer.getInstance().start();
+  }
 
   @BeforeEach
   void setUp() {
+    // foreign key errors
+    bookRepository.deleteAll();
     underTest.deleteAll();
   }
 

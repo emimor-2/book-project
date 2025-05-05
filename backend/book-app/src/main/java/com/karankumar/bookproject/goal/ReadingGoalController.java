@@ -19,18 +19,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-
-import static org.mockito.Mockito.mock;
 
 @RestController
 @RequestMapping(Mappings.GOAL)
@@ -98,5 +97,10 @@ public class ReadingGoalController {
         .findFirst()
         .orElseThrow(
             () -> new ResponseStatusException(HttpStatus.NOT_FOUND, READING_GOAL_NOT_FOUND));
+  }
+
+  @ExceptionHandler(value = {ResponseStatusException.class})
+  public ResponseEntity<String> unknownException(ResponseStatusException ex, WebRequest req) {
+    return ResponseEntity.status(ex.getStatus()).body(ex.getReason());
   }
 }

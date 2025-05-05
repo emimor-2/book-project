@@ -20,17 +20,18 @@ package com.karankumar.bookproject.statistics;
 import com.karankumar.bookproject.annotations.IntegrationTest;
 import com.karankumar.bookproject.book.model.Author;
 import com.karankumar.bookproject.book.model.Book;
-import com.karankumar.bookproject.shelf.model.PredefinedShelf;
 import com.karankumar.bookproject.book.service.BookService;
+import com.karankumar.bookproject.shelf.model.PredefinedShelf;
 import com.karankumar.bookproject.shelf.service.PredefinedShelfService;
 import com.karankumar.bookproject.statistics.util.StatisticTestUtils;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
+import com.karankumar.bookproject.util.BookPostgreSQLContainer;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @IntegrationTest
 @DisplayName("PageStatistics should")
@@ -44,6 +45,11 @@ class PageStatisticsTest {
   PageStatisticsTest(BookService bookService, PredefinedShelfService predefinedShelfService) {
     this.bookService = bookService;
     this.predefinedShelfService = predefinedShelfService;
+  }
+
+  @BeforeAll
+  static void dbSetup() {
+    BookPostgreSQLContainer.getInstance().start();
   }
 
   @BeforeEach

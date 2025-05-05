@@ -22,9 +22,11 @@ import com.karankumar.bookproject.account.repository.UserRepository;
 import com.karankumar.bookproject.annotations.DataJpaIntegrationTest;
 import com.karankumar.bookproject.book.model.Author;
 import com.karankumar.bookproject.book.model.Book;
-import com.karankumar.bookproject.shelf.repository.PredefinedShelfRepository;
 import com.karankumar.bookproject.shelf.model.PredefinedShelf;
-import com.karankumar.bookproject.account.model.User;
+import com.karankumar.bookproject.shelf.repository.PredefinedShelfRepository;
+import com.karankumar.bookproject.util.BookPostgreSQLContainer;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -58,6 +60,11 @@ class BookRepositoryTest {
     this.authorRepository = authorRepository;
     this.userRepository = userRepository;
     this.predefinedShelfRepository = predefinedShelfRepository;
+  }
+
+  @BeforeAll
+  static void dbSetup() {
+    BookPostgreSQLContainer.getInstance().start();
   }
 
   @BeforeEach
